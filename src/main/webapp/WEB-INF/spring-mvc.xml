@@ -14,11 +14,7 @@
     <!-- 只需要扫描 com.yule 下的 @Controller 并注册成bean -->
     <context:component-scan base-package="com.yule" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-    </context:component-scan>
-
-    <!-- 自动注册service -->
-    <context:component-scan base-package="com.yule">
-        <context:include-filter type="regex" expression=".*\.service\..*" />
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />
     </context:component-scan>
 
     <mvc:annotation-driven>

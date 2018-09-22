@@ -20,6 +20,7 @@ public class MyHandlerExceptionResolver implements HandlerExceptionResolver {
     @Override
     public ModelAndView resolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
         logger.error("服务器端未知错误", e);
+        //todo 后续继续实现
         return new ModelAndView("system/error/error");
     }
 }

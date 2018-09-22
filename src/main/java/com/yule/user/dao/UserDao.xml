@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yule.user.dao.UserDao">
+
+    <!--resultMap-->
+    <resultMap id="userResultMap" type="com.yule.user.entity.User">
+        <constructor>
+            <idArg column="id" javaType="string"/>
+            <arg column="name" javaType="string"/>
+            <arg column="age" javaType="string"/>
+        </constructor>
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+    </resultMap>
+
+    <select id="queryUserList" resultType="com.yule.user.entity.User" >
+        <include refid="common_query">
+            <property name="columnsName" value="user_columns"/>
+        </include>
+    </select>
+
+    <sql id="user_columns">
+        ${prefix}.id, ${prefix}.name, ${prefix}.age
+    </sql>
+    <select id="queryUserByName" resultType="com.yule.user.entity.User">
+        select
+          <include refid="user_columns">
+              <property name="prefix" value="t"/>
+          </include>
+        from t_user t
+        where t.name = #{name,jdbcType=VARCHAR}
+    </select>
+
+    <sql id="common_query">
+        select
+        <include refid="${columnsName}">
+              <property name="prefix" value="t"/>
+        </include>
+        from t_user t
+    </sql>
+
+    <select id="queryUserById" resultMap="userResultMap">
+         select t.id, t.name, t.age from t_user t
+        where t.id = #{id}
+    </select>
+
+    <insert id="insertUser">
+        <selectKey keyProperty="id" order="BEFORE" resultType="string">
+          select t_user_s.nextval from dual
+        </selectKey>
+        insert into t_user
+          (id, name, age)
+        values
+          (#{id}, #{name}, #{age})
+    </insert>
+
+    <update id="updateUserById">
+        update t_user t set t.age = #{age}, t.name = #{name}
+        where t.id = #{id}
+    </update>
+
+    <delete id="deleteUserById">
+        delete t_user t where t.ID = #{id}
+    </delete>
+
+</mapper>

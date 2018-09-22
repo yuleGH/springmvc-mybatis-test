@@ -15,18 +15,19 @@
        default-lazy-init="true"
        default-autowire="byName">
 
-    <description>整合spring与mybatis</description>
+    <description>spring service 层的自动注册和事务配置</description>
     <!--采用MapperScannerConfigurer，它将会查找类路径下的映射器并自动将它们创建成MapperFactoryBean-->
 
-    <!-- mybatis为spring提供的jar,其配置时不支持正则表达式配置 -->
-    <bean id="mySqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <!-- 自动注册service 必须在配置事务之上，否则@Transactional不起作用-->
+    <context:component-scan base-package="com.yule">
+        <context:include-filter type="regex" expression=".*\.service\..*" />
+    </context:component-scan>
+
+    <!--配置事务-->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="myDataSource"/>
-        <property name="typeAliasesPackage" value="com.yule.*.entity,com.yule.*.*.entity,com.yule.*.*.*.entity"/>
-        <property name="configLocation" value="classpath:/mybatis/system/mybatis-configuration.xml"/>
     </bean>
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.yule.*.dao,com.yule.*.*.dao,com.yule.*.*.*.dao"/>
-        <property name="sqlSessionFactoryBeanName" value="mySqlSessionFactory"/>
-    </bean>
+    <!-- 支持注解形式 enable transaction annotation support -->
+    <tx:annotation-driven transaction-manager="txManager" />
 
 </beans>

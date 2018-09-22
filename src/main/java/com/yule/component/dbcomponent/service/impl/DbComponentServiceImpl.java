@@ -2,11 +2,13 @@ package com.yule.component.dbcomponent.service.impl;
 
 import com.yule.component.dbcomponent.dao.UserColCommentsDao;
 import com.yule.component.dbcomponent.dao.UserTablesDao;
+import com.yule.component.dbcomponent.entity.UserColComments;
 import com.yule.component.dbcomponent.entity.UserTables;
 import com.yule.component.dbcomponent.service.DbComponentService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.yule.user.dao.UserDao;
+import com.yule.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,13 +21,25 @@ public class DbComponentServiceImpl implements DbComponentService {
     private UserTablesDao userTablesDao;
     @Autowired
     private UserColCommentsDao userColCommentsDao;
+    @Autowired
+    private UserDao userDao;
 
-    private final Logger logger = LoggerFactory.getLogger(DbComponentServiceImpl.class);
-
+    @Transactional
     @Override
     public List<UserTables> selectUserTablesNameList() {
-        logger.info("测试日志哦~");
+        updateUser();
+        String s = null;
+        s.toString();
         return this.userTablesDao.selectUserTablesNameList();
+    }
+
+    @Override
+    public List<UserColComments> selectUserColCommentsListByTbName(String tableName){
+        return this.userColCommentsDao.selectUserColCommentsListByTbName(tableName);
+    }
+
+    public void updateUser(){
+        this.userDao.updateUserById(new User("1", "yule", "125"));
     }
 
 }
