@@ -5,8 +5,6 @@ import com.yule.component.dbcomponent.dao.UserTablesDao;
 import com.yule.component.dbcomponent.entity.UserColComments;
 import com.yule.component.dbcomponent.entity.UserTables;
 import com.yule.component.dbcomponent.service.DbComponentService;
-import com.yule.user.dao.UserDao;
-import com.yule.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,25 +19,16 @@ public class DbComponentServiceImpl implements DbComponentService {
     private UserTablesDao userTablesDao;
     @Autowired
     private UserColCommentsDao userColCommentsDao;
-    @Autowired
-    private UserDao userDao;
 
     @Transactional
     @Override
     public List<UserTables> selectUserTablesNameList() {
-        updateUser();
-        String s = null;
-        s.toString();
         return this.userTablesDao.selectUserTablesNameList();
     }
 
     @Override
     public List<UserColComments> selectUserColCommentsListByTbName(String tableName){
         return this.userColCommentsDao.selectUserColCommentsListByTbName(tableName);
-    }
-
-    public void updateUser(){
-        this.userDao.updateUserById(new User("1", "yule", "125"));
     }
 
 }
