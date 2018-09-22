@@ -13,7 +13,14 @@ public interface DbComponentService {
     /**
      * 查询所有的表名
      */
-    List<UserTables> selectUserTablesNameList();
+    List<UserTables> selectUserTablesList();
+
+    /**
+     * 查询所有的表名
+     * @param tableName
+     * @return
+     */
+    List<UserTables> selectUserTablesListByTbName(String tableName);
 
     /**
      * 查询某张表的所有字段

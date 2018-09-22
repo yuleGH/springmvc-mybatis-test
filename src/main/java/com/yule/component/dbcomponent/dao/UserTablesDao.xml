@@ -2,12 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yule.component.dbcomponent.dao.UserTablesDao">
 
-    <!--查询当前用户下的所有表名-->
-    <select id="selectUserTablesNameList" resultType="com.yule.component.dbcomponent.entity.UserTables">
-      select t.NUM_ROWS numRows, t.table_name tableName, f.comments comments
+    <sql id="Select_UserTablesList">
+        select t.NUM_ROWS numRows, t.table_name tableName, f.comments comments
       from user_tables t
      inner join user_tab_comments f
         on t.table_name = f.table_name
+    </sql>
+
+    <!--查询当前用户下的所有表名-->
+    <select id="selectUserTablesList" resultType="com.yule.component.dbcomponent.entity.UserTables">
+      <include refid="Select_UserTablesList"/>
+    </select>
+
+    <!--查询当前用户下的所有表名-->
+    <select id="selectUserTablesListByTbName" resultType="com.yule.component.dbcomponent.entity.UserTables" parameterType="string">
+        <include refid="Select_UserTablesList"/>
+        where 1=1
+        <if test="tableName != null and tableName != ''">
+            and upper(t.TABLE_NAME) like '%' || upper(#{tableName}) ||  '%'
+        </if>
     </select>
 
 </mapper>

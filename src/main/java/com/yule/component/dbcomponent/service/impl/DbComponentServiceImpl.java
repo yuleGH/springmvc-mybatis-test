@@ -20,10 +20,14 @@ public class DbComponentServiceImpl implements DbComponentService {
     @Autowired
     private UserColCommentsDao userColCommentsDao;
 
-    @Transactional
     @Override
-    public List<UserTables> selectUserTablesNameList() {
-        return this.userTablesDao.selectUserTablesNameList();
+    public List<UserTables> selectUserTablesList() {
+        return this.userTablesDao.selectUserTablesList();
+    }
+
+    @Override
+    public List<UserTables> selectUserTablesListByTbName(String tableName) {
+        return this.userTablesDao.selectUserTablesListByTbName(tableName);
     }
 
     @Override

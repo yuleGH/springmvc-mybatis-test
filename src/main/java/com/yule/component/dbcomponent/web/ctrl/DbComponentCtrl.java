@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -20,18 +21,18 @@ public class DbComponentCtrl {
     private DbComponentService dbComponentService;
 
     @RequestMapping("/index")
-    public String index(){
-        return "yule/component/dbcomponent/dbComponent";
+    public ModelAndView index(){
+        return new ModelAndView("yule/component/dbcomponent/dbComponent");
     }
 
     /**
      * 查询所有表名
      * @return
      */
-    @RequestMapping("/selectUserTablesNameList")
+    @RequestMapping("/selectUserTablesListByTbName")
     @ResponseBody
-    public List<UserTables> selectUserTablesNameList(){
-        List<UserTables> userTablesList = this.dbComponentService.selectUserTablesNameList();
+    public List<UserTables> selectUserTablesListByTbName(String tableName){
+        List<UserTables> userTablesList = this.dbComponentService.selectUserTablesListByTbName(tableName);
         return userTablesList;
     }
 }
