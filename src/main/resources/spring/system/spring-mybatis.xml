@@ -20,39 +20,47 @@
 
     <!-- mybatis为spring提供的jar,其配置时不支持正则表达式配置 -->
     <bean id="mySqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="typeAliasesPackage" value="com.yule.*.*.entity"/>
+        <property name="dataSource" ref="dataSource"/>
+        <property name="typeAliasesPackage" value="com.yule.*.*.entity,com.yule.*.*.*.entity"/>
         <property name="configLocation" value="classpath:/spring/system/mybatis-configuration.xml"/>
     </bean>
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.yule.*.*.dao" />
+        <property name="basePackage" value="com.yule.*.*.dao,com.yule.*.*.*.dao"/>
         <property name="sqlSessionFactoryBeanName" value="mySqlSessionFactory"/>
     </bean>
 
     <!-- 加载配置文件 -->
     <context:property-placeholder location="classpath*:conf/system/*.properties"/>
     <!-- 扫描注解 -->
-    <context:annotation-config />
+    <context:annotation-config/>
 
     <!-- 需要 commons.dbcp 包 -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${db.driver}" />
+        <property name="driverClassName" value="${db.driver}"/>
         <property name="url" value="${db.datasourceurl}"/>
-        <property name="username" value="${db.username}" />
-        <property name="password" value="${db.password}" />
+        <property name="username" value="${db.username}"/>
+        <property name="password" value="${db.password}"/>
 
-        <property name="maxActive" value="100" />
-        <property name="maxIdle" value="20" />
-        <property name="maxWait" value="1000" />
-        <property name="defaultAutoCommit" value="true" />
-        <property name="removeAbandoned" value="true" />
-        <property name="removeAbandonedTimeout" value="60" />
-        <property name="validationQuery" value="select count(*) from dual" />
-        <property name="testOnBorrow" value="true" />
-        <property name="testOnReturn" value="true" />
-        <property name="testWhileIdle" value="true" />
+        <property name="maxActive" value="100"/>
+        <property name="maxIdle" value="20"/>
+        <property name="maxWait" value="1000"/>
+        <property name="defaultAutoCommit" value="true"/>
+        <property name="removeAbandoned" value="true"/>
+        <property name="removeAbandonedTimeout" value="60"/>
+        <property name="validationQuery" value="select count(*) from dual"/>
+        <property name="testOnBorrow" value="true"/>
+        <property name="testOnReturn" value="true"/>
+        <property name="testWhileIdle" value="true"/>
     </bean>
 
+    <!--配置事务-->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!-- 支持注解形式 enable transaction annotation support -->
+    <tx:annotation-driven transaction-manager="txManager" />
+
+    <!--大字段处理-->
     <!--<bean id="lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler"></bean>-->
 
 </beans>

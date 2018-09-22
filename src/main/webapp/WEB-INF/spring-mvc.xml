@@ -21,6 +21,23 @@
         <context:include-filter type="regex" expression=".*\.service\..*" />
     </context:component-scan>
 
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <!-- 将Jackson2HttpMessageConverter的默认格式化输出设为true -->
+            <!--支持@ResponseBody 返回json-->
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="prettyPrint" value="true"/>
+                <!-- 兼容ie -->
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>application/json</value>
+                        <value>text/json</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
     <!-- 视图解析器: 定义JSP文件的位置 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <!--前缀-->
