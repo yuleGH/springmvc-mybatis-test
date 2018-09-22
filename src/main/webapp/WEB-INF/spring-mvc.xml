@@ -56,4 +56,7 @@
     定义无需Controller的url<->view直接映射-->
     <!--<mvc:view-controller path="/" view-name="redirect:/demoCtrl/index"/>-->
 
+    <!--统一异常处理，记录日志-->
+    <bean class="com.yule.system.exception.MyHandlerExceptionResolver" id="myHandlerExceptionResolver"/>
+
 </beans>
