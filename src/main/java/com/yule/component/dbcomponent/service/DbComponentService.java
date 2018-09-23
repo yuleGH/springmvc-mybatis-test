@@ -4,6 +4,7 @@ import com.yule.component.dbcomponent.entity.UserColComments;
 import com.yule.component.dbcomponent.entity.UserTables;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author yule
@@ -28,4 +29,12 @@ public interface DbComponentService {
      * @return
      */
     List<UserColComments> selectUserColCommentsListByTbName(String tableName);
+
+    /**
+     * 根据表名获取表格数据
+     * @param tableName
+     * @param tableConditionsJson
+     * @return
+     */
+    List<Map<String, String>> getTableData(String tableName, String tableConditionsJson);
 }

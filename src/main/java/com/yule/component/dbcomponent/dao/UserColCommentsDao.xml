@@ -2,13 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yule.component.dbcomponent.dao.UserColCommentsDao">
 
-    <!--查询某个表下的所有字段-->
-    <select id="selectUserColCommentsListByTbName" resultType="com.yule.component.dbcomponent.entity.UserColComments">
-      select t.table_name tableName,
+    <sql id="Select_UserColCommentsListByTbName">
+        select t.table_name tableName,
         t.column_name columnName,
         comments
       from user_col_comments t
-     where upper(t.TABLE_NAME) = upper(#{tableName})
+     where upper(t.TABLE_NAME) = upper(#{tableName,jdbcType=VARCHAR})
+    </sql>
+
+    <!--查询某个表下的所有字段-->
+    <select id="selectUserColCommentsListByTbName" resultType="com.yule.component.dbcomponent.entity.UserColComments">
+      <include refid="Select_UserColCommentsListByTbName"/>
+    </select>
+
+    <!--根据列名查询-->
+    <select id="selectUserColCommentsListByColumns" resultType="com.yule.component.dbcomponent.entity.UserColComments">
+        <include refid="Select_UserColCommentsListByTbName"/>
+         and
+         <foreach collection="colConditionList" item="column" open="(" separator="or" close=")">
+             t.column_name = #{column.columnName}
+         </foreach>
     </select>
 
 </mapper>

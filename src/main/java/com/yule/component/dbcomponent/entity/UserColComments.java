@@ -18,6 +18,11 @@ public class UserColComments {
      */
     private String comments;
 
+    /**
+     * 列值，不是数据库的字段
+     */
+    private String columnVal;
+
     public String getTableName() {
         return tableName;
     }
@@ -40,5 +45,13 @@ public class UserColComments {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public String getColumnVal() {
+        return columnVal;
+    }
+
+    public void setColumnVal(String columnVal) {
+        this.columnVal = columnVal;
     }
 }

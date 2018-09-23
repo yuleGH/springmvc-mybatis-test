@@ -3,7 +3,7 @@
 <mapper namespace="com.yule.component.dbcomponent.dao.UserTablesDao">
 
     <sql id="Select_UserTablesList">
-        select t.NUM_ROWS numRows, t.table_name tableName, f.comments comments
+        select nvl(t.NUM_ROWS, '0') numRows, t.table_name tableName, f.comments comments
       from user_tables t
      inner join user_tab_comments f
         on t.table_name = f.table_name
@@ -20,6 +20,23 @@
         where 1=1
         <if test="tableName != null and tableName != ''">
             and upper(t.TABLE_NAME) like '%' || upper(#{tableName}) ||  '%'
+        </if>
+    </select>
+
+    <!--根据表名+查询条件 查询，需要防止 sql 注入-->
+    <select id="selectTableDataByConditions" resultType="map">
+         select * from ${tableName}
+         where 1=1
+        <if test="colConditionList !=null and colConditionList.size() > 0">
+            and
+            <foreach collection="colConditionList" item="column" open="(" separator="and" close=")">
+                <if test="column.columnVal != null and column.columnVal != ''">
+                    ${column.columnName} like '%' || #{column.columnVal} || '%'
+                </if>
+                <if test="column.columnVal == null or column.columnVal == ''">
+                    1=1
+                </if>
+            </foreach>
         </if>
     </select>
 

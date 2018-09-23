@@ -1,5 +1,6 @@
 package com.yule.component.dbcomponent.web.ctrl;
 
+import com.yule.component.dbcomponent.entity.UserColComments;
 import com.yule.component.dbcomponent.entity.UserTables;
 import com.yule.component.dbcomponent.service.DbComponentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,28 @@ public class DbComponentCtrl {
     public List<UserTables> selectUserTablesListByTbName(String tableName){
         List<UserTables> userTablesList = this.dbComponentService.selectUserTablesListByTbName(tableName);
         return userTablesList;
+    }
+
+    /**
+     * 查询某表的所有列字段
+     * @return
+     */
+    @RequestMapping("/selectUserColCommentsListByTbName")
+    @ResponseBody
+    public List<UserColComments> selectUserColCommentsListByTbName(String tableName){
+        List<UserColComments> userColCommentsList = this.dbComponentService.selectUserColCommentsListByTbName(tableName);
+        return userColCommentsList;
+    }
+
+    /**
+     * 根据表名获取表格数据
+     * @param tableName 表名
+     * @param tableConditionsJson 表的查询条件
+     * @return
+     */
+    @RequestMapping("/getTableData")
+    @ResponseBody
+    public Object getTableData(String tableName, String tableConditionsJson){
+        return this.dbComponentService.getTableData(tableName, tableConditionsJson);
     }
 }

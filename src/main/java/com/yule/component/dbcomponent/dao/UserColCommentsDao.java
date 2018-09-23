@@ -1,6 +1,7 @@
 package com.yule.component.dbcomponent.dao;
 
 import com.yule.component.dbcomponent.entity.UserColComments;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,5 +15,13 @@ public interface UserColCommentsDao {
      * @param tableName
      * @return
      */
-    List<UserColComments> selectUserColCommentsListByTbName(String tableName);
+    List<UserColComments> selectUserColCommentsListByTbName(@Param("tableName") String tableName);
+
+    /**
+     * 根据列名查询
+     * @param tableName
+     * @param colConditionList
+     * @return
+     */
+    List<UserColComments> selectUserColCommentsListByColumns(@Param("tableName") String tableName, @Param("colConditionList") List<UserColComments> colConditionList);
 }
