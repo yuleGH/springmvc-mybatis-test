@@ -44,7 +44,7 @@ public class DbComponentServiceImpl implements DbComponentService {
     }
 
     @Override
-    public List<Map<String, String>> getTableData(String tableName, String tableConditionsJson) {
+    public List<Map<String, String>> getTableData(String tableName, String tableConditionsJson, Map<String, Object> pageConfMap) {
         if(StringUtils.isEmpty(tableName)){
             return new ArrayList<>(0);
         }
@@ -69,7 +69,16 @@ public class DbComponentServiceImpl implements DbComponentService {
         }
 
         //查询表格数据
-        return this.userTablesDao.selectTableDataByConditions(tableName, colConditionList);
+        pageConfMap.put("tableName", tableName);
+        pageConfMap.put("colConditionList", colConditionList);
+        return this.userTablesDao.selectTableDataByConditions(pageConfMap);
+    }
+
+    @Override
+    public int getTableDataCount(String tableName, String tableConditionsJson) {
+        Gson gson = new Gson();
+        List<UserColComments> colConditionList = gson.fromJson(tableConditionsJson, new TypeToken<List<UserColComments>>(){}.getType());
+        return this.userTablesDao.selectTableDataCountByConditions(tableName, colConditionList);
     }
 
 }

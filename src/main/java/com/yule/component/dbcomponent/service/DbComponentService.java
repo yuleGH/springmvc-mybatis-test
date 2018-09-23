@@ -34,7 +34,16 @@ public interface DbComponentService {
      * 根据表名获取表格数据
      * @param tableName
      * @param tableConditionsJson
+     * @param pageConfMap
      * @return
      */
-    List<Map<String, String>> getTableData(String tableName, String tableConditionsJson);
+    List<Map<String, String>> getTableData(String tableName, String tableConditionsJson, Map<String, Object> pageConfMap);
+
+    /**
+     * 数量
+     * @param tableName
+     * @param tableConditionsJson
+     * @return
+     */
+    int getTableDataCount(String tableName, String tableConditionsJson);
 }

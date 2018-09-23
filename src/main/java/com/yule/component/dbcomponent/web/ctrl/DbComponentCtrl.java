@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author yule
@@ -56,7 +58,22 @@ public class DbComponentCtrl {
      */
     @RequestMapping("/getTableData")
     @ResponseBody
-    public Object getTableData(String tableName, String tableConditionsJson){
-        return this.dbComponentService.getTableData(tableName, tableConditionsJson);
+    public Object getTableData(String tableName, String tableConditionsJson,
+                               int start, int limit, String field, String direction){
+        Map<String, Object> pageConfMap = new HashMap<>(16);
+        pageConfMap.put("start", start);
+        pageConfMap.put("limit", limit);
+        pageConfMap.put("field", field);
+        pageConfMap.put("direction", direction);
+        List<Map<String, String>> tableData = this.dbComponentService.getTableData(tableName, tableConditionsJson, pageConfMap);
+        int totalCount = 0;
+        if(tableData.size() > 0){
+            totalCount = this.dbComponentService.getTableDataCount(tableName, tableConditionsJson);
+        }
+
+        Map result = new HashMap<>(2);
+        result.put("pageData", tableData);
+        result.put("total", totalCount);
+        return result;
     }
 }

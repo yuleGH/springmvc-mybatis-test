@@ -27,9 +27,16 @@ public interface UserTablesDao {
 
     /**
      * 根据表名+查询条件 查询数据
+     * @param pageConfMap
+     * @return
+     */
+    List<Map<String, String>> selectTableDataByConditions(Map<String, Object> pageConfMap);
+
+    /**
+     * 查询数量
      * @param tableName
      * @param colConditionList
      * @return
      */
-    List<Map<String, String>> selectTableDataByConditions(@Param("tableName") String tableName, @Param("colConditionList") List<UserColComments> colConditionList);
+    int selectTableDataCountByConditions(@Param("tableName") String tableName, @Param("colConditionList") List<UserColComments> colConditionList);
 }

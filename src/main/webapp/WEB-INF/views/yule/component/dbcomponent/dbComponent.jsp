@@ -46,22 +46,33 @@
     </el-row>
 
     <%--表格数据--%>
-    <table-component :table-data="tableData" :table-columns="tableColumns"></table-component>
+    <table-component ref="tableRef" :table-columns="tableColumns"></table-component>
 </div>
 
 <div id="tableApp">
-    <el-table
-            :data="tableData"
-            border
-            style="width: 100%">
-        <el-table-column
-                v-for="(item, index) in tableColumns"
-                :prop="item.prop"
-                :label="item.label"
-                :key="item.id"
-        >
-        </el-table-column>
-    </el-table>
+    <div>
+        <el-table
+                :data="pageData"
+                border
+                @sort-change="sortChange"
+                style="width: 100%">
+            <el-table-column
+                    v-for="(item, index) in tableColumns"
+                    :prop="item.prop"
+                    :label="item.label"
+                    :key="item.id"
+                    sortable="custom"
+                    show-overflow-tooltip
+            >
+            </el-table-column>
+        </el-table>
+
+        <!--分页-->
+        <el-pagination
+                :page-size="pageSize" layout="prev, pager, next, jumper" :total="total"
+                :current-page="currentPage" @current-change="currentChange">
+        </el-pagination>
+    </div>
 </div>
 
 <!-- 引入组件库 -->
@@ -69,22 +80,32 @@
 <script type="text/javascript" src="${ctx}/static/lib/elementui/index.js"></script>
 <script type="text/javascript" src="${ctx}/static/lib/jquery.js"></script>
 <script type="text/javascript" src="${ctx}/static/common/common.js"></script>
+<script type="text/javascript" src="${ctx}/static/common/paginationTool.js"></script>
 
 <%--表格组件，需要分页--%>
 <script type="text/javascript">
     const tableComponent = {
         template: document.getElementById("tableApp").innerHTML,
+        mixins: [commonPageBar],
         data: function () {
-            return {}
+            return {
+                pageSize: 10,
+                url: ctx + "/dbComponentCtrl/getTableData"
+            }
         },
         props: {
             tableColumns: {
                 type: Array,
                 required: true
-            },
-            tableData: {
-                type: Array,
-                required: true
+            }
+        },
+        methods: {
+            clearTable(){
+                this.pageData = [];
+                this.total = 0;
+                this.field = null;
+                this.direction = null;
+                this.currentPage = 0;
             }
         }
     };
@@ -101,7 +122,6 @@
             tableName: '', //当前查询的表名
 
             tableColumns: [], //表格列名
-            tableData: [], //表格数据
             tableConditions: [] //表格查询条件
         },
         mounted() {
@@ -135,7 +155,6 @@
                     backFunction: function (tableColList) {
                         _self.drawTable(tableColList);
                         _self.drawTableConditions(tableColList);
-                        _self.getTableData();
                     }
                 });
             },
@@ -154,6 +173,7 @@
                         prop: item.columnName,
                         label: item.columnName + "：" + item.comments
                     });
+                    _self.$refs.tableRef.clearTable();
                 }
             },
             /**
@@ -173,12 +193,6 @@
                 }
             },
             /**
-             * 根据表名获取表格数据
-             */
-            getTableData() {
-                this.commonGetTableData(null);
-            },
-            /**
              * 根据查询条件获取表格数据
              */
             handleQueryTableDataByCondition() {
@@ -187,18 +201,13 @@
             },
             commonGetTableData(tableConditions) {
                 const tableName = this.tableName;
-                const _self = this;
+                if(!tableName){
+                    return;
+                }
 
-                _self.tableData = [];
-                commonFun.ajaxSubmit({
-                    url: ctx + "/dbComponentCtrl/getTableData",
-                    datas: {
-                        tableName: tableName,
-                        tableConditionsJson: tableConditions && JSON.stringify(tableConditions)
-                    },
-                    backFunction(data) {
-                        _self.tableData = data;
-                    }
+                this.$refs.tableRef.reload({
+                    tableName: tableName,
+                    tableConditionsJson: tableConditions && JSON.stringify(tableConditions)
                 });
             }
         }
