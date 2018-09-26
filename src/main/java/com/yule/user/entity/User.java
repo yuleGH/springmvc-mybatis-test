@@ -1,5 +1,6 @@
 package com.yule.user.entity;
 
+import java.sql.Timestamp;
 /**
  * 用户实体
  *
@@ -10,6 +11,8 @@ public class User {
     private String id;
     private String name;
     private String age;
+
+    private Timestamp updateTime;
 
     public User(){
 
@@ -46,6 +49,14 @@ public class User {
 
     public void setAge(String age) {
         this.age = age;
+    }
+
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
     }
 
     @Override
