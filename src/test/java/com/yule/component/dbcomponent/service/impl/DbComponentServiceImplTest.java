@@ -2,7 +2,6 @@ package com.yule.component.dbcomponent.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yule.system.convert.CustomMapper;
 import com.yule.user.entity.User;
 import oracle.sql.TIMESTAMP;
 import org.junit.Test;
@@ -19,9 +18,10 @@ public class DbComponentServiceImplTest {
     public void test() throws JsonProcessingException {
         User user = new User("1", "32", "sfd");
         user.setUpdateTime(getOracleTimestamp(new TIMESTAMP()));
+//        user.setUpdateTime(new TIMESTAMP());
 
-        ObjectMapper objectMapper = new CustomMapper();
-        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm"));
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         String json = objectMapper.writeValueAsString(user);
         System.out.println(json);
     }

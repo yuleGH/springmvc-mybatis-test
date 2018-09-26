@@ -6,4 +6,9 @@
         <setting name="defaultStatementTimeout" value="25000" />
         <setting name="logPrefix" value="dao." />
     </settings>
+
+    <typeHandlers>
+        <!--自定义处理-->
+        <typeHandler handler="com.yule.system.typehandler.MyObjectTypeHandle"/>
+    </typeHandlers>
 </configuration>
