@@ -1,6 +1,7 @@
 package com.yule.component.dbcomponent.entity;
 
 /**
+ * 列的一些信息
  * @author yule
  * @date 2018/9/22 15:38
  */
@@ -17,6 +18,11 @@ public class UserColComments {
      * 列注释
      */
     private String comments;
+
+    /**
+     * 字段类型
+     */
+    private String dataType;
 
     /**
      * 列值，不是数据库的字段
@@ -53,5 +59,13 @@ public class UserColComments {
 
     public void setColumnVal(String columnVal) {
         this.columnVal = columnVal;
+    }
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
     }
 }

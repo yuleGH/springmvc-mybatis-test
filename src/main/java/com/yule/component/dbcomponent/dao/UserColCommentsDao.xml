@@ -3,11 +3,13 @@
 <mapper namespace="com.yule.component.dbcomponent.dao.UserColCommentsDao">
 
     <sql id="Select_UserColCommentsListByTbName">
-        select t.table_name tableName,
-        t.column_name columnName,
-        comments
-      from user_col_comments t
-     where upper(t.TABLE_NAME) = upper(#{tableName,jdbcType=VARCHAR})
+     SELECT
+      t.TABLE_NAME tableName, t.COLUMN_NAME columnName, t.DATA_TYPE dataType, a.COMMENTS
+      FROM
+          USER_TAB_COLUMNS t
+          LEFT JOIN USER_COL_COMMENTS a ON t.table_name = a.table_NAME AND t.COLUMN_NAME = a.COLUMN_NAME
+      WHERE
+          upper(t.TABLE_NAME) = upper(#{tableName,jdbcType=VARCHAR})
     </sql>
 
     <!--查询某个表下的所有字段-->

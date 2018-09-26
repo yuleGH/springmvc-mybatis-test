@@ -188,6 +188,7 @@
                     _self.tableConditions.push({
                         //{tableName: "T_USER", columnName: "ID", comments: "主键"}
                         columnName: item.columnName,
+                        dataType: item.dataType,
                         columnVal: ""
                     });
                 }

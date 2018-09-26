@@ -30,6 +30,19 @@
                         <value>text/json</value>
                     </list>
                 </property>
+
+                <!--是全局设置json响应的日期格式，但此方法可以和@JsonFormat共存，也就是说可以全局设置一个格式，特定的需求可以使用注解设置。-->
+                <property name="objectMapper">
+                    <!-- 配置 objectMapper 为我们自定义扩展后的 CustomMapper -->
+                    <bean class="com.yule.system.convert.CustomMapper">
+                        <property name="dateFormat">
+                            <bean class="java.text.SimpleDateFormat">
+                                <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss" />
+                            </bean>
+                        </property>
+                    </bean>
+                </property>
+
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
