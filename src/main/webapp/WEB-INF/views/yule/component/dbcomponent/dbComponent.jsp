@@ -54,6 +54,7 @@
         <el-table
                 :data="pageData"
                 border
+                v-loading="loading"
                 @sort-change="sortChange"
                 style="width: 100%">
             <el-table-column
