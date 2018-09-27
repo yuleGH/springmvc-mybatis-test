@@ -30,8 +30,8 @@ public class DbComponentCtrl {
     private DbComponentService dbComponentService;
 
     @RequestMapping("/index")
-    public ModelAndView index(){
-        return new ModelAndView("yule/component/dbcomponent/dbComponent");
+    public String index(){
+        return "yule/component/dbcomponent/dbComponent";
     }
 
     /**

@@ -196,6 +196,30 @@
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>2.8.2</version>
                 </plugin>
+
+                <!--打包输出目录 WebContent-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <configuration>
+                        <webappDirectory>WebContent</webappDirectory>
+                        <useCache>false</useCache>
+                        <archive>
+                            <addMavenDescriptor>true</addMavenDescriptor>
+                        </archive>
+                        <overlays>
+                            <overlay>
+                                <!-- empty groupId/artifactId is detected as the current build -->
+
+                                <!-- 代表当前WAR项目，默认情况下当前WAR项目是先被拷贝的，如果要控制其顺序，则使用空的overlay -->
+
+                                <!-- any other overlay will be applied after the current build since
+                                    they have not been configured in the overlays element -->
+                            </overlay>
+                        </overlays>
+                        <dependentWarExcludes>*/web.xml,WEB-INF/lib/*,/META-INF/*</dependentWarExcludes>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
 

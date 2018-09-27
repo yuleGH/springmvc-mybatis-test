@@ -63,7 +63,7 @@
 
     <!-- 将地址重定向："/"是访问的path，"/demoCtrl/index"是重定向后的path：
     定义无需Controller的url<->view直接映射-->
-    <!--<mvc:view-controller path="/" view-name="redirect:/demoCtrl/index"/>-->
+    <mvc:view-controller path="/" view-name="redirect:/dbComponentCtrl/index"/>
 
     <!--统一异常处理，记录日志-->
     <bean class="com.yule.system.exception.MyHandlerExceptionResolver" id="myHandlerExceptionResolver"/>

@@ -52,6 +52,8 @@
                         v-model="item.columnVal"
                         type="datetimerange"
                         :editable="false"
+                        format="yyyy-MM-dd HH:mm:ss"
+                        value-format="yyyy-MM-dd HH:mm:ss"
                         clearable
                         range-separator="至"
                         :start-placeholder="item.columnName"
