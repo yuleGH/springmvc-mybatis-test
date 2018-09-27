@@ -9,10 +9,20 @@
     <title>数据库单表查询组件</title>
 
     <link rel="stylesheet" href="${ctx}/static/lib/elementui/theme-chalk/index.css" type="text/css">
+
+    <style type="text/css">
+        .m-b20{
+            margin-bottom: 20px;
+        }
+        .t-center{
+            text-align: center;
+        }
+    </style>
+
 </head>
 <body>
 <div id="app" v-cloak>
-    <el-row :gutter="20" style="margin-bottom: 20px;">
+    <el-row :gutter="20" class="m-b20">
         <el-col :span="6">
             <el-select v-model="tableNameSelect" clearable filterable placeholder="请选择">
                 <el-option
@@ -31,18 +41,31 @@
     </el-row>
 
     <%--查询条件--%>
-    <el-row :gutter="20" style="margin-bottom: 20px;">
+    <el-row :gutter="20" class="m-b20">
         <el-col
-                :span="4"
+                :span="8"
                 v-for="(item,index) in tableConditions"
                 :key="item.columnName"
         >
-            <el-input v-model="item.columnVal" :placeholder="item.columnName"
-                      @keyup.enter.native="handleQueryTableDataByCondition"></el-input>
+            <template v-if="item.dataType.indexOf('TIMESTAMP') >= 0 || item.dataType.indexOf('DATE') >= 0">
+                <el-date-picker
+                        v-model="item.columnVal"
+                        type="datetimerange"
+                        :editable="false"
+                        clearable
+                        range-separator="至"
+                        :start-placeholder="item.columnName"
+                        :end-placeholder="item.columnName">
+                </el-date-picker>
+            </template>
+            <template v-else>
+                <el-input v-model="item.columnVal" :placeholder="item.columnName"
+                          @keyup.enter.native="handleQueryTableDataByCondition"></el-input>
+            </template>
         </el-col>
-        <el-col :span="4">
-            <el-button type="primary" @click="handleQueryTableDataByCondition">根据条件查询数据</el-button>
-        </el-col>
+    </el-row>
+    <el-row :gutter="20" class="m-b20">
+        <el-button type="primary" @click="handleQueryTableDataByCondition">根据条件查询数据</el-button>
     </el-row>
 
     <%--表格数据--%>
@@ -52,6 +75,7 @@
 <div id="tableApp">
     <div>
         <el-table
+                class="m-b20"
                 :data="pageData"
                 border
                 v-loading="loading"
@@ -70,6 +94,7 @@
 
         <!--分页-->
         <el-pagination
+                class="t-center"
                 :page-size="pageSize" layout="prev, pager, next, jumper" :total="total"
                 :current-page="currentPage" @current-change="currentChange">
         </el-pagination>
