@@ -20,7 +20,7 @@
 
     <!-- mybatis为spring提供的jar,其配置时不支持正则表达式配置 -->
     <bean id="mySqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="myDataSource"/>
+        <property name="dataSource" ref="dataSource"/>
         <property name="typeAliasesPackage" value="com.yule.*.entity,com.yule.*.*.entity,com.yule.*.*.*.entity"/>
         <property name="configLocation" value="classpath:/mybatis/system/mybatis-configuration.xml"/>
     </bean>

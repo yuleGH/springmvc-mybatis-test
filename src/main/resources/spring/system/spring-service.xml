@@ -25,7 +25,7 @@
 
     <!--配置事务-->
     <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="myDataSource"/>
+        <property name="dataSource" ref="dataSource"/>
     </bean>
     <!-- 支持注解形式 enable transaction annotation support -->
     <tx:annotation-driven transaction-manager="txManager" />
