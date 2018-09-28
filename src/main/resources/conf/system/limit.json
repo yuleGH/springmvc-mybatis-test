@@ -2,9 +2,9 @@
 [
   {
     "tableName" : "t_user",
-    "tableColumns" : ["id", "age"]
+    "tableColumns" : ["id"]
   },
   {
-    "tableName" : "t_user"
+    "tableName" : "t_book"
   }
 ]
