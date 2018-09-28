@@ -11,10 +11,6 @@ import java.util.Map;
  * @date 2018/9/22 15:57
  */
 public interface DbComponentService {
-    /**
-     * 查询所有的表名
-     */
-    List<UserTables> selectUserTablesList();
 
     /**
      * 查询所有的表名

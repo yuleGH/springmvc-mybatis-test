@@ -9,17 +9,18 @@
         on t.table_name = f.table_name
     </sql>
 
-    <!--查询当前用户下的所有表名-->
-    <select id="selectUserTablesList" resultType="com.yule.component.dbcomponent.entity.UserTables">
-      <include refid="Select_UserTablesList"/>
-    </select>
-
-    <!--查询当前用户下的所有表名-->
-    <select id="selectUserTablesListByTbName" resultType="com.yule.component.dbcomponent.entity.UserTables" parameterType="string">
+    <!--查询当前用户下的所有表名，有限制-->
+    <select id="selectUserTablesListByTbName" resultType="com.yule.component.dbcomponent.entity.UserTables">
         <include refid="Select_UserTablesList"/>
         where 1=1
         <if test="tableName != null and tableName != ''">
             and upper(t.TABLE_NAME) like '%' || upper(#{tableName}) ||  '%'
+        </if>
+        <if test="tableNameLimitList != null and tableNameLimitList.size() > 0">
+            and
+          <foreach collection="tableNameLimitList" item="tableNameLimit" open="(" close=")" separator="and">
+              t.table_name != #{tableNameLimit}
+          </foreach>
         </if>
     </select>
 
@@ -29,7 +30,11 @@
         from (select s.*, rownum rn
           from (
 
-            select * from ${tableName}
+            select
+            <foreach collection="allTableColCommentsListByDelLimit" item="column" open="" close="" separator=",">
+                t.${column.columnName}
+            </foreach>
+          from ${tableName} t
             where 1=1
             <include refid="Where_SelectTableDataByConditions"/>
 

@@ -35,7 +35,7 @@ public class DbComponentCtrl {
     }
 
     /**
-     * 查询所有表名
+     * 查询所有表名，有限制私密
      * @return
      */
     @RequestMapping("/selectUserTablesListByTbName")
@@ -46,7 +46,7 @@ public class DbComponentCtrl {
     }
 
     /**
-     * 查询某表的所有列字段
+     * 查询某表的所有列字段，没有限制私密
      * @return
      */
     @RequestMapping("/selectUserColCommentsListByTbName")
@@ -57,7 +57,7 @@ public class DbComponentCtrl {
     }
 
     /**
-     * 根据表名获取表格数据
+     * 根据表名获取表格数据，有限制私密
      * @param tableName 表名
      * @param tableConditionsJson 表的查询条件
      * @return

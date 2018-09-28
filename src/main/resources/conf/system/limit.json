@@ -1,0 +1,10 @@
+//配置查询表的限制；默认空数组 []
+[
+  {
+    "tableName" : "t_user",
+    "tableColumns" : ["id", "age"]
+  },
+  {
+    "tableName" : "t_user"
+  }
+]

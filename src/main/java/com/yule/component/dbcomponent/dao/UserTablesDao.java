@@ -12,18 +12,13 @@ import java.util.Map;
  * @date 2018/9/22 15:24
  */
 public interface UserTablesDao {
-    /**selectUserColCommentsListByTbName
-     * 查询所有表名
-     * @return
-     */
-    List<UserTables> selectUserTablesList();
-
     /**
      * 查询表名
      * @param tableName
+     * @param tableNameLimitList
      * @return
      */
-    List<UserTables> selectUserTablesListByTbName(@Param("tableName") String tableName);
+    List<UserTables> selectUserTablesListByTbName(@Param("tableName") String tableName, @Param("tableNameLimitList") List<String> tableNameLimitList);
 
     /**
      * 根据表名+查询条件 查询数据
