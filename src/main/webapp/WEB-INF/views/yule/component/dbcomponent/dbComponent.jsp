@@ -14,15 +14,22 @@
         .m-b20{
             margin-bottom: 20px;
         }
+        .m-t20{
+            margin-top: 20px;
+        }
         .t-center{
             text-align: center;
+        }
+        .el-row{
+             margin-left: 0px !important;
+             margin-right: 0px !important;
         }
     </style>
 
 </head>
 <body>
 <div id="app" v-cloak>
-    <el-row :gutter="20" class="m-b20">
+    <el-row :gutter="20">
         <el-col :span="6">
             <el-select v-model="tableNameSelect" clearable filterable placeholder="请选择">
                 <el-option
@@ -42,32 +49,37 @@
 
     <%--查询条件--%>
     <el-row :gutter="20" class="m-b20">
-        <el-col
-                :span="8"
+        <div
                 v-for="(item,index) in tableConditions"
                 :key="item.columnName"
         >
-            <template v-if="item.dataType.indexOf('TIMESTAMP') >= 0 || item.dataType.indexOf('DATE') >= 0">
-                <el-date-picker
-                        v-model="item.columnVal"
-                        type="datetimerange"
-                        :editable="false"
-                        format="yyyy-MM-dd HH:mm:ss"
-                        value-format="yyyy-MM-dd HH:mm:ss"
-                        clearable
-                        range-separator="至"
-                        :start-placeholder="item.columnName"
-                        :end-placeholder="item.columnName">
-                </el-date-picker>
+            <template v-if="judgeIsDateType(item)">
+                <el-col :span="8" class="m-t20">
+                    <el-date-picker
+                            v-model="item.dateValArray"
+                            type="datetimerange"
+                            :editable="false"
+                            format="yyyy-MM-dd HH:mm:ss"
+                            value-format="yyyy-MM-dd HH:mm:ss"
+                            clearable
+                            range-separator="至"
+                            :start-placeholder="item.columnName"
+                            :end-placeholder="item.columnName">
+                    </el-date-picker>
+                </el-col>
             </template>
             <template v-else>
-                <el-input v-model="item.columnVal" :placeholder="item.columnName"
-                          @keyup.enter.native="handleQueryTableDataByCondition"></el-input>
+                <el-col :span="4" class="m-t20">
+                    <el-input v-model="item.columnVal" :placeholder="item.columnName"
+                            @keyup.enter.native="handleQueryTableDataByCondition"></el-input>
+                </el-col>
             </template>
-        </el-col>
+        </div>
     </el-row>
     <el-row :gutter="20" class="m-b20">
-        <el-button type="primary" @click="handleQueryTableDataByCondition">根据条件查询数据</el-button>
+        <el-col>
+            <el-button type="primary" @click="handleQueryTableDataByCondition">根据条件查询数据</el-button>
+        </el-col>
     </el-row>
 
     <%--表格数据--%>
@@ -217,7 +229,8 @@
                         //{tableName: "T_USER", columnName: "ID", comments: "主键"}
                         columnName: item.columnName,
                         dataType: item.dataType,
-                        columnVal: ""
+                        columnVal: "",
+                        dateValArray: []
                     });
                 }
             },
@@ -226,6 +239,18 @@
              */
             handleQueryTableDataByCondition() {
                 const tableConditions = this.tableConditions;
+                const _self = this;
+                tableConditions.forEach(function(x, i){
+                    if(_self.judgeIsDateType(x)){
+                        x.columnVal = null;
+                        x.startDateVal = (x.dateValArray && x.dateValArray.length > 0) ? x.dateValArray[0] : null;
+                        x.endDateVal = (x.dateValArray && x.dateValArray.length > 0) ? x.dateValArray[1] : null;
+                    }else{
+                        x.dateValArray = null;
+                        x.startDateVal = null;
+                        x.endDateVal = null;
+                    }
+                });
                 this.commonGetTableData(tableConditions);
             },
             commonGetTableData(tableConditions) {
@@ -238,6 +263,15 @@
                     tableName: tableName,
                     tableConditionsJson: tableConditions && JSON.stringify(tableConditions)
                 });
+            },
+
+            /**
+             * 判断字段是否为日期类型
+             * @param item
+             * @returns {boolean}
+             */
+            judgeIsDateType(item){
+                return item.dataType.indexOf('TIMESTAMP') >= 0 || item.dataType.indexOf('DATE') >= 0;
             }
         }
     });

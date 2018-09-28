@@ -45,12 +45,19 @@
         <if test="colConditionList !=null and colConditionList.size() > 0">
             and
             <foreach collection="colConditionList" item="column" open="(" separator="and" close=")">
-                <if test="column.columnVal != null and column.columnVal != ''">
-                    ${column.columnName} like '%' || #{column.columnVal} || '%'
-                </if>
-                <if test="column.columnVal == null or column.columnVal == ''">
-                    1=1
-                </if>
+                <choose>
+                    <when test="column.startDateVal != null and column.startDateVal != ''">
+                        ${column.columnName} >= to_date(#{column.startDateVal}, 'yyyy/MM/dd hh24:mi:ss')
+                        and ${column.columnName} &lt;= to_date(#{column.endDateVal}, 'yyyy/MM/dd hh24:mi:ss')
+                    </when>
+                    <when test="column.columnVal != null and column.columnVal != ''">
+                        ${column.columnName} like '%' || #{column.columnVal} || '%'
+                    </when>
+                    <otherwise>
+                        1=1
+                    </otherwise>
+                </choose>
+
             </foreach>
         </if>
     </sql>

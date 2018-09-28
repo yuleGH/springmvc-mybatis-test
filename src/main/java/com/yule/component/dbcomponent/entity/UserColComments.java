@@ -24,10 +24,19 @@ public class UserColComments {
      */
     private String dataType;
 
+    //以下不是数据库的字段
     /**
-     * 列值，不是数据库的字段
+     * 列值
      */
     private String columnVal;
+    /**
+     * 时间段-查询条件：开始时间
+     */
+    private String startDateVal;
+    /**
+     * 时间段-查询条件：结束时间
+     */
+    private String endDateVal;
 
     public String getTableName() {
         return tableName;
@@ -67,5 +76,21 @@ public class UserColComments {
 
     public void setDataType(String dataType) {
         this.dataType = dataType;
+    }
+
+    public String getStartDateVal() {
+        return startDateVal;
+    }
+
+    public void setStartDateVal(String startDateVal) {
+        this.startDateVal = startDateVal;
+    }
+
+    public String getEndDateVal() {
+        return endDateVal;
+    }
+
+    public void setEndDateVal(String endDateVal) {
+        this.endDateVal = endDateVal;
     }
 }
