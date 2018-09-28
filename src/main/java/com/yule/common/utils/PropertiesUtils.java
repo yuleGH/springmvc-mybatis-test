@@ -1,4 +1,4 @@
-package com.yule.component.dbcomponent.utils;
+package com.yule.common.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -3,10 +3,10 @@ package com.yule.component.dbcomponent.utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yule.common.CommonTool;
+import com.yule.common.utils.PropertiesUtils;
 import com.yule.component.dbcomponent.entity.LimitInfo;
 import org.springframework.util.StringUtils;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,11 +19,10 @@ import java.util.Map;
  * @date 2018/9/28 15:58
  */
 public class DbLimitUtil {
-    private static String json;
     private static List<LimitInfo> limitInfoList;
 
     static {
-        json = PropertiesUtils.readJsonFile("conf/system/limit.json");
+        String json = PropertiesUtils.readJsonFile("conf/dbcomponent/limit.json");//todo 支持多数据源
         Gson gson = new Gson();
         limitInfoList = gson.fromJson(json, new TypeToken<List<LimitInfo>>(){}.getType());
 

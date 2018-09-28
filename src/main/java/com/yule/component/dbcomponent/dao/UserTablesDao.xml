@@ -3,7 +3,7 @@
 <mapper namespace="com.yule.component.dbcomponent.dao.UserTablesDao">
 
     <sql id="Select_UserTablesList">
-        select nvl(t.NUM_ROWS, '0') numRows, t.table_name tableName, f.comments comments
+        select t.table_name tableName, f.comments comments
       from user_tables t
      inner join user_tab_comments f
         on t.table_name = f.table_name

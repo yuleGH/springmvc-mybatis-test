@@ -84,7 +84,7 @@ public class DbComponentServiceImpl implements DbComponentService {
         List<String> tableColumnLimitList = DbLimitUtil.getTableColumnLimitListByTableName(tableName);
         List<UserColComments> allTableColCommentsList = this.userColCommentsDao.selectUserColCommentsListByTbName(tableName);
         if(CommonTool.isNullOrBlock(tableColumnLimitList)){
-            return allTableColCommentsListByDelLimit;
+            return allTableColCommentsList;
         }
 
         for(UserColComments userColComments : allTableColCommentsList){

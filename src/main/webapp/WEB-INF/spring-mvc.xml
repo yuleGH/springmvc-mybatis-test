@@ -11,6 +11,9 @@
     并且提供了数据绑定支持，@NumberFormatannotation支持，@DateTimeFormat支持,@Valid支持读写XML的支持（JAXB）和读写JSON的支持（默认Jackson）等功能-->
     <mvc:annotation-driven />
 
+    <!-- 加载配置文件，controller中需要使用@Value得到配置值 -->
+    <context:property-placeholder location="classpath*:conf/system/*.properties"/>
+
     <!-- 只需要扫描 com.yule 下的 @Controller 并注册成bean -->
     <context:component-scan base-package="com.yule" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>

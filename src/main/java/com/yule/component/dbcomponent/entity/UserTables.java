@@ -11,10 +11,6 @@ public class UserTables {
      * 表注释
      */
     private String comments;
-    /**
-     * 表数据总数
-     */
-    private String numRows;
 
     public String getTableName() {
         return tableName;
@@ -30,13 +26,5 @@ public class UserTables {
 
     public void setComments(String comments) {
         this.comments = comments;
-    }
-
-    public String getNumRows() {
-        return numRows;
-    }
-
-    public void setNumRows(String numRows) {
-        this.numRows = numRows;
     }
 }

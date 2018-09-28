@@ -3,12 +3,14 @@ package com.yule.component.dbcomponent.web.ctrl;
 import com.yule.component.dbcomponent.entity.UserColComments;
 import com.yule.component.dbcomponent.entity.UserTables;
 import com.yule.component.dbcomponent.service.DbComponentService;
+import com.yule.system.datasource.DataSourceHolder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,9 +32,23 @@ public class DbComponentCtrl {
     @Autowired
     private DbComponentService dbComponentService;
 
+    @Value("${dbComponentDataSources}")
+    private String dbComponentDataSources;
+
     @RequestMapping("/index")
     public String index(){
         return "yule/component/dbcomponent/dbComponent";
+    }
+
+    /**
+     * 查询数据源
+     * @return
+     */
+    @RequestMapping("/getDbComponentDataSources")
+    @ResponseBody
+    public List<String> getDbComponentDataSources(){
+        String[] dataSourceArray = dbComponentDataSources.split(",");
+        return Arrays.asList(dataSourceArray);
     }
 
     /**
@@ -41,18 +57,20 @@ public class DbComponentCtrl {
      */
     @RequestMapping("/selectUserTablesListByTbName")
     @ResponseBody
-    public List<UserTables> selectUserTablesListByTbName(String tableName){
+    public List<UserTables> selectUserTablesListByTbName(String tableName, String dataSourceType){
+        DataSourceHolder.setDataSourceType(dataSourceType);
         List<UserTables> userTablesList = this.dbComponentService.selectUserTablesListByTbName(tableName);
         return userTablesList;
     }
 
     /**
-     * 查询某表的所有列字段，没有限制私密
+     * 查询某表的所有列字段，限制私密
      * @return
      */
     @RequestMapping("/selectUserColCommentsListByTbName")
     @ResponseBody
-    public List<UserColComments> selectUserColCommentsListByTbName(String tableName){
+    public List<UserColComments> selectUserColCommentsListByTbName(String tableName, String dataSourceType){
+        DataSourceHolder.setDataSourceType(dataSourceType);
         List<UserColComments> userColCommentsList = this.dbComponentService.selectUserColCommentsListByTbName(tableName);
         return userColCommentsList;
     }
@@ -65,8 +83,10 @@ public class DbComponentCtrl {
      */
     @RequestMapping("/getTableData")
     @ResponseBody
-    public Object getTableData(String tableName, String tableConditionsJson,
+    public Object getTableData(String tableName, String tableConditionsJson, String dataSourceType,
                                int start, int limit, String field, String direction){
+        DataSourceHolder.setDataSourceType(dataSourceType);
+
         Map<String, Object> pageConfMap = new HashMap<>(16);
         pageConfMap.put("start", start);
         pageConfMap.put("limit", limit);

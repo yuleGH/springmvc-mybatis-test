@@ -31,17 +31,29 @@
 <div id="app" v-cloak>
     <el-row :gutter="20">
         <el-col :span="6">
-            <el-select v-model="tableNameSelect" clearable filterable placeholder="请选择">
+            <el-select v-model="dataSourceSelect" @change="handleDataSourceSelectChange" clearable filterable placeholder="请选择数据源">
+                <el-option
+                        v-for="item in dataSourceOptions"
+                        :key="item"
+                        :label="item"
+                        :value="item">
+                </el-option>
+            </el-select>
+        </el-col>
+
+        <el-col :span="6">
+            <el-select v-model="tableNameSelect" clearable filterable placeholder="请选择表名">
                 <el-option
                         v-for="item in tableNameOptions"
                         :key="item.tableName"
                         :label="item.tableName"
                         :value="item.tableName">
                     <span style="float: left">{{ item.tableName }}</span>
-                    <span style="float: right; color: #8492a6; font-size: 13px">{{ item.comments }} {{ item.numRows}}条记录</span>
+                    <span style="float: right; color: #8492a6; font-size: 13px">{{ item.comments }}</span>
                 </el-option>
             </el-select>
         </el-col>
+
         <el-col :span="4">
             <el-button type="primary" @click="handleSelectTable">查询列字段</el-button>
         </el-col>
@@ -156,8 +168,11 @@
     new Vue({
         el: "#app",
         data: {
-            tableNameOptions: [], //下拉框
-            tableNameSelect: '', //下拉框选中数据
+            tableNameOptions: [], //表下拉框
+            tableNameSelect: '', //表下拉框选中数据
+
+            dataSourceOptions: [],//数据源下拉框
+            dataSourceSelect: '',//数据源下拉框选中的数据
 
             tableName: '', //当前查询的表名
 
@@ -168,12 +183,13 @@
             const _self = this;
             this.$nextTick(() => {
                 commonFun.ajaxSubmit({
-                    url: ctx + "/dbComponentCtrl/selectUserTablesListByTbName",
+                    url: ctx + "/dbComponentCtrl/getDbComponentDataSources",
                     datas: {},
-                    backFunction: function (tableNameList) {
-                        _self.tableNameOptions = tableNameList;
+                    backFunction: function (dataSourceList) {
+                        _self.dataSourceOptions = dataSourceList;
                     }
                 });
+
             });
         },
         components: {
@@ -181,16 +197,36 @@
         },
         methods: {
             /**
+             * 处理选择数据源触发
+             */
+            handleDataSourceSelectChange(dataSourceSelect) {
+                if(!dataSourceSelect) return;
+
+                const _self = this;
+                commonFun.ajaxSubmit({
+                    url: ctx + "/dbComponentCtrl/selectUserTablesListByTbName",
+                    datas: {dataSourceType: dataSourceSelect},
+                    backFunction: function (tableNameList) {
+                        _self.tableNameSelect = "";
+                        _self.tableColumns = [];
+                        _self.tableConditions = [];
+                        _self.tableNameOptions = tableNameList;
+                    }
+                });
+            },
+            /**
              * 选择表名
              */
             handleSelectTable() {
                 const _self = this;
+                const dataSourceType = this.dataSourceSelect;
                 this.tableName = this.tableNameSelect;
 
                 commonFun.ajaxSubmit({
                     url: ctx + "/dbComponentCtrl/selectUserColCommentsListByTbName",
                     datas: {
-                        tableName: _self.tableName
+                        tableName: _self.tableName,
+                        dataSourceType: dataSourceType
                     },
                     backFunction: function (tableColList) {
                         _self.drawTable(tableColList);
@@ -259,8 +295,10 @@
                     return;
                 }
 
+                const dataSourceType = this.dataSourceSelect;
                 this.$refs.tableRef.reload({
                     tableName: tableName,
+                    dataSourceType: dataSourceType,
                     tableConditionsJson: tableConditions && JSON.stringify(tableConditions)
                 });
             },
