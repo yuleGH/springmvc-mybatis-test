@@ -18,12 +18,15 @@ import java.util.Map;
 /**
  * 数据库单表查询组件
  * 需要解决问题：
- *      私密性：后台需要有个 json 文件设置哪些表不能查，哪些表的字段不能查
- *      组件：弄成 jar/war 包，包含前端
+ *      私密性：后台需要有个 json 文件设置哪些表能查，哪些表的字段不能查；（指定表、指定字段不查）
+ *      通用性组件：弄成 jar 包，包含前端（druid alibaba 数据库连接池，做成jar包）
  *      日期查询条件处理：时间类型的直接给时间段，年月日时分秒
  *      考虑返回 Map 后的字段类型处理（现支持：NUMBER,VARCHAR,TIMESTAMP,DATA）
  *      考虑多个数据库配置
  *      注意不能造成sql注入
+ *      查询条件动态组装，isnull,isnotnull,like...     防止sql注入      可以参考老潘的东西
+ *      后续支持不同数据库，mybatis、mysql、oracle
+ *
  * @author yule
  * @date 2018/9/22 15:57
  */
