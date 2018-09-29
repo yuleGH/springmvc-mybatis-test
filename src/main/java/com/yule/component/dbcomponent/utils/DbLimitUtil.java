@@ -6,8 +6,6 @@ import com.yule.common.CommonTool;
 import com.yule.common.utils.PropertiesUtils;
 import com.yule.component.dbcomponent.entity.LimitInfo;
 import com.yule.system.datasource.DataSourceHolder;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -22,16 +20,10 @@ import java.util.Map;
  * @date 2018/9/28 15:58
  */
 public class DbLimitUtil {
-    private static List<LimitInfo> limitInfoList;
+    private static Map<String, String> dataSourceLimitJsonUrlMap;
 
     static {
-        Map<String, String> dataSourceLimitJsonUrlMap = buildDataSourceLimitJsonUrlMap();
-        String json = PropertiesUtils.readJsonFile(dataSourceLimitJsonUrlMap.get(DataSourceHolder.getDataSourceType()));
-
-        Gson gson = new Gson();
-        limitInfoList = gson.fromJson(json, new TypeToken<List<LimitInfo>>(){}.getType());
-
-        limitInfoListToUpperCase();
+        dataSourceLimitJsonUrlMap = buildDataSourceLimitJsonUrlMap();
     }
 
     private static Map<String, String> buildDataSourceLimitJsonUrlMap() {
@@ -48,7 +40,18 @@ public class DbLimitUtil {
         return dataSourceLimitJsonUrlMap;
     }
 
-    private static void limitInfoListToUpperCase() {
+    private static List<LimitInfo> getLimitInfoList(){
+        String json = PropertiesUtils.readJsonFile(dataSourceLimitJsonUrlMap.get(DataSourceHolder.getDataSourceType()));
+
+        Gson gson = new Gson();
+        List<LimitInfo> limitInfoList = gson.fromJson(json, new TypeToken<List<LimitInfo>>(){}.getType());
+
+        limitInfoListToUpperCase(limitInfoList);
+
+        return limitInfoList;
+    }
+
+    private static void limitInfoListToUpperCase(List<LimitInfo> limitInfoList) {
         for(LimitInfo limitInfo : limitInfoList){
             if(!StringUtils.isEmpty(limitInfo.getTableName())){
                 limitInfo.setTableName(limitInfo.getTableName().toUpperCase());
@@ -70,7 +73,7 @@ public class DbLimitUtil {
      */
     public static List<String> getTableNameLimitList(){
         List<String> tableNameLimitList = new ArrayList<>();
-        for(LimitInfo limitInfo : limitInfoList){
+        for(LimitInfo limitInfo : getLimitInfoList()){
             if(CommonTool.isNullOrBlock(limitInfo.getTableColumns())){
                 tableNameLimitList.add(limitInfo.getTableName());
             }
@@ -103,7 +106,7 @@ public class DbLimitUtil {
 
     private static Map<String, List<String>> getTableLimitMap(){
         Map<String, List<String>> tableLimitMap = new HashMap<>();
-        for(LimitInfo limitInfo : limitInfoList){
+        for(LimitInfo limitInfo : getLimitInfoList()){
             tableLimitMap.put(limitInfo.getTableName(), limitInfo.getTableColumns());
         }
         return tableLimitMap;
