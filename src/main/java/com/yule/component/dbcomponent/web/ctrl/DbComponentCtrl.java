@@ -16,13 +16,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 数据库组件
+ * 数据库单表查询组件
  * 需要解决问题：
  *      私密性：后台需要有个 json 文件设置哪些表不能查，哪些表的字段不能查
- *      组件：弄成 jar 包，包含前端
- *      日期查询条件处理：时间类型的直接给时间段，年月日时分
+ *      组件：弄成 jar/war 包，包含前端
+ *      日期查询条件处理：时间类型的直接给时间段，年月日时分秒
  *      考虑返回 Map 后的字段类型处理（现支持：NUMBER,VARCHAR,TIMESTAMP,DATA）
  *      考虑多个数据库配置
+ *      注意不能造成sql注入
  * @author yule
  * @date 2018/9/22 15:57
  */
@@ -58,7 +59,7 @@ public class DbComponentCtrl {
     @RequestMapping("/selectUserTablesListByTbName")
     @ResponseBody
     public List<UserTables> selectUserTablesListByTbName(String tableName, String dataSourceType){
-        DataSourceHolder.setDataSourceType(dataSourceType);
+        DataSourceHolder.setDataSourceType(dataSourceType);//todo 校验
         List<UserTables> userTablesList = this.dbComponentService.selectUserTablesListByTbName(tableName);
         return userTablesList;
     }
