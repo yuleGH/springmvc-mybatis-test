@@ -168,6 +168,15 @@
             <version>1.2.47</version>
         </dependency>
 
+        <!--alibaba 的数据库连接池-->
+        <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.1.10</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
