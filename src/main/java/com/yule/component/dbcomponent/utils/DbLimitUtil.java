@@ -2,11 +2,10 @@ package com.yule.component.dbcomponent.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.yule.common.CommonTool;
+import com.yule.common.utils.CommonUtil;
 import com.yule.common.utils.PropertiesUtils;
 import com.yule.component.dbcomponent.entity.LimitInfo;
 import com.yule.system.datasource.DataSourceHolder;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,14 +52,14 @@ public class DbLimitUtil {
 
     private static void limitInfoListToUpperCase(List<LimitInfo> limitInfoList) {
         for(LimitInfo limitInfo : limitInfoList){
-            if(!StringUtils.isEmpty(limitInfo.getTableName())){
+            if(!CommonUtil.isEmpty(limitInfo.getTableName())){
                 limitInfo.setTableName(limitInfo.getTableName().toUpperCase());
             }
 
-            if(CommonTool.isNotNullOrBlock(limitInfo.getTableColumns())){
+            if(CommonUtil.isNotNullOrBlock(limitInfo.getTableColumns())){
                 List<String> newTableColumnList = new ArrayList<>();
                 for(String str : limitInfo.getTableColumns()){
-                    newTableColumnList.add(StringUtils.isEmpty(str) ? str : str.toUpperCase());
+                    newTableColumnList.add(CommonUtil.isEmpty(str) ? str : str.toUpperCase());
                 }
                 limitInfo.setTableColumns(newTableColumnList);
             }
@@ -74,7 +73,7 @@ public class DbLimitUtil {
     public static List<String> getTableNameLimitList(){
         List<String> tableNameLimitList = new ArrayList<>();
         for(LimitInfo limitInfo : getLimitInfoList()){
-            if(CommonTool.isNullOrBlock(limitInfo.getTableColumns())){
+            if(CommonUtil.isNullOrBlock(limitInfo.getTableColumns())){
                 tableNameLimitList.add(limitInfo.getTableName());
             }
         }
@@ -89,7 +88,7 @@ public class DbLimitUtil {
     public static List<String> getTableColumnLimitListByTableName(String tableName){
         List<String> tableColumnLimitList = new ArrayList<>();
 
-        if(StringUtils.isEmpty(tableName)){
+        if(CommonUtil.isEmpty(tableName)){
             return tableColumnLimitList;
         }
 

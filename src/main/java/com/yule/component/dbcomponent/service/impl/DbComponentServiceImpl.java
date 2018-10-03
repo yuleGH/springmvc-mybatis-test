@@ -2,7 +2,7 @@ package com.yule.component.dbcomponent.service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.yule.common.CommonTool;
+import com.yule.common.utils.CommonUtil;
 import com.yule.component.dbcomponent.dao.UserColCommentsDao;
 import com.yule.component.dbcomponent.dao.UserTablesDao;
 import com.yule.component.dbcomponent.entity.UserColComments;
@@ -12,7 +12,6 @@ import com.yule.component.dbcomponent.utils.DbLimitUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +42,7 @@ public class DbComponentServiceImpl implements DbComponentService {
 
     @Override
     public List<Map<String, String>> getTableData(String tableName, String tableConditionsJson, Map<String, Object> pageConfMap) {
-        if(StringUtils.isEmpty(tableName)){
+        if(CommonUtil.isEmpty(tableName)){
             return new ArrayList<>(0);
         }
         //防止 sql 注入，校验表名
@@ -54,7 +53,7 @@ public class DbComponentServiceImpl implements DbComponentService {
         }
 
         List<UserColComments> colConditionList = null;
-        if(!StringUtils.isEmpty(tableConditionsJson)){
+        if(!CommonUtil.isEmpty(tableConditionsJson)){
             Gson gson = new Gson();
             colConditionList = gson.fromJson(tableConditionsJson, new TypeToken<List<UserColComments>>(){}.getType());
 
@@ -83,7 +82,7 @@ public class DbComponentServiceImpl implements DbComponentService {
 
         List<String> tableColumnLimitList = DbLimitUtil.getTableColumnLimitListByTableName(tableName);
         List<UserColComments> allTableColCommentsList = this.userColCommentsDao.selectUserColCommentsListByTbName(tableName);
-        if(CommonTool.isNullOrBlock(tableColumnLimitList)){
+        if(CommonUtil.isNullOrBlock(tableColumnLimitList)){
             return allTableColCommentsList;
         }
 

@@ -39,7 +39,7 @@ public class PropertiesUtils {
 
     public static String getValue(String key) {
         String value = pro.getProperty(key);
-        if(StringUtils.isEmpty(value)){
+        if(CommonUtil.isEmpty(value)){
             logger.error("【"+key+"】没有配置，请配置后再试！");
         }
         return value.trim();
