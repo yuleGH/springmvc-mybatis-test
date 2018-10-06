@@ -10,11 +10,28 @@
   <!--还需要在 web.xml 配置读取所有相关的 spring 配置文件-->
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath*:mybatis/system/mybatis-datasource.xml,classpath*:spring/system/spring-mybatis.xml,classpath*:spring/system/spring-service.xml</param-value>
+    <param-value>classpath*:spring/system/spring-mybatis-querydb.xml</param-value>
   </context-param>
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+
+  <servlet>
+    <servlet-name>querydb</servlet-name>
+    <servlet-class>com.yule.querydb.servlet.QueryDbDispatcherServlet</servlet-class>
+    <init-param>
+      <!--设置配置-->
+      <param-name>propertiesPath</param-name>
+      <param-value>/conf/system/system.properties</param-value>
+    </init-param>
+    <!--启动加载的顺序-->
+    <load-on-startup>2</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>querydb</servlet-name>
+    <!--“/”: 会拦截所有请求，包括js、jsp、html等-->
+    <url-pattern>/querydb/*</url-pattern>
+  </servlet-mapping>
 
   <!--配置springmvc的分发器-->
   <servlet>

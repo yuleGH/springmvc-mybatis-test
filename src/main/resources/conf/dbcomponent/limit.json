@@ -1,10 +1,16 @@
-//配置查询表的限制；默认空数组 []
-[
-  {
-    "tableName" : "t_user",
-    "tableColumns" : ["id"]
-  },
-  {
-    "tableName" : "t_book"
-  }
-]
+//配置查询表的限制；默认空数组 []；
+//举例：canQueryTables 表示可以查询的表
+//forbidQueryColumns 表示禁止查询的表字段
+{
+  "canQueryTables": ["t_user", "T_DICTIONARY_DETAIL", "T_DICTIONARY_DETAIL_HIS", "T_DICTIONARY_TYPE"],
+  "forbidQueryColumns": [
+    {
+      "tableName": "t_user",
+      "tableColumns": ["id"]
+    },
+    {
+      "tableName": "T_DICTIONARY_DETAIL",
+      "tableColumns": ["dic_type_id", "detail_key"]
+    }
+  ]
+}

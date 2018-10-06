@@ -12,13 +12,13 @@
     <mvc:annotation-driven />
 
     <!-- 加载配置文件，controller中需要使用@Value得到配置值 -->
-    <context:property-placeholder location="classpath*:conf/system/*.properties"/>
+    <!--<context:property-placeholder location="classpath*:conf/system/*.properties"/>-->
 
     <!-- 只需要扫描 com.yule 下的 @Controller 并注册成bean -->
-    <context:component-scan base-package="com.yule" use-default-filters="false">
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />
-    </context:component-scan>
+    <!--<context:component-scan base-package="com.yule" use-default-filters="false">-->
+        <!--<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
+        <!--<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />-->
+    <!--</context:component-scan>-->
 
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">
@@ -66,9 +66,12 @@
 
     <!-- 将地址重定向："/"是访问的path，"/demoCtrl/index"是重定向后的path：
     定义无需Controller的url<->view直接映射-->
-    <mvc:view-controller path="/" view-name="redirect:/dbComponentCtrl/index"/>
+    <!--<mvc:view-controller path="/" view-name="redirect:/dbComponentCtrl/index"/>-->
 
     <!--统一异常处理，记录日志-->
     <bean class="com.yule.system.exception.MyHandlerExceptionResolver" id="myHandlerExceptionResolver"/>
+
+    <!--设置 spring 上下文 querydb-->
+    <bean class="com.yule.querydb.utils.SpringContextHolder" id="mySpringContextHolder"></bean>
 
 </beans>
