@@ -10,7 +10,7 @@
   <!--还需要在 web.xml 配置读取所有相关的 spring 配置文件-->
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath*:spring/system/spring-mybatis-querydb.xml</param-value>
+    <param-value>classpath*:querydb/conf/spring-mybatis-querydb-double.xml</param-value>
   </context-param>
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -39,7 +39,7 @@
     <init-param>
       <!--设置配置-->
       <param-name>propertiesPath</param-name>
-      <param-value>/conf/system/system.properties</param-value>
+      <param-value>/conf/system/querydb.properties</param-value>
     </init-param>
     <!--启动加载的顺序-->
     <load-on-startup>2</load-on-startup>
