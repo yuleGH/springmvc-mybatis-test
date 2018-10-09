@@ -72,6 +72,6 @@
     <bean class="com.yule.system.exception.MyHandlerExceptionResolver" id="myHandlerExceptionResolver"/>
 
     <!--设置 spring 上下文 querydb-->
-    <bean class="com.yule.querydb.utils.SpringContextHolder" id="mySpringContextHolder"></bean>
+    <bean class="com.yule.querydb.utils.SpringContextHolder"/>
 
 </beans>
