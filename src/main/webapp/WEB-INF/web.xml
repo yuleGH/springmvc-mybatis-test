@@ -36,11 +36,6 @@
   <servlet>
     <servlet-name>querydb</servlet-name>
     <servlet-class>com.yule.querydb.servlet.QueryDbDispatcherServlet</servlet-class>
-    <init-param>
-      <!--设置配置-->
-      <param-name>propertiesPath</param-name>
-      <param-value>/conf/system/querydb.properties</param-value>
-    </init-param>
     <!--启动加载的顺序-->
     <load-on-startup>2</load-on-startup>
   </servlet>
