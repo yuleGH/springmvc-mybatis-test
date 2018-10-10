@@ -181,6 +181,8 @@
             <groupId>com.yule</groupId>
             <artifactId>querydb</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/querydb-1.0-SNAPSHOT.jar</systemPath>
         </dependency>
 
     </dependencies>
@@ -217,6 +219,26 @@
                 <plugin>
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>2.8.2</version>
+                </plugin>
+
+                <!--引用工程jar包-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>2.0</version>
+                    <executions>
+                        <execution>
+                            <id>copy-dependencies</id>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>copy-dependencies</goal>
+                            </goals>
+                            <configuration>
+                                <outputDirectory>${project.basedir}/WebContent/WEB-INF/lib</outputDirectory>
+                                <includeScope>system</includeScope>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
 
                 <!--打包输出目录 WebContent-->
