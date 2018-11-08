@@ -12,13 +12,12 @@
     <mvc:annotation-driven />
 
     <!-- 加载配置文件，controller中需要使用@Value得到配置值 -->
-    <!--<context:property-placeholder location="classpath*:conf/system/*.properties"/>-->
+    <context:property-placeholder location="classpath*:conf/system/*.properties"/>
 
     <!-- 只需要扫描 com.yule 下的 @Controller 并注册成bean -->
-    <!--<context:component-scan base-package="com.yule" use-default-filters="false">-->
-        <!--<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
-        <!--<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />-->
-    <!--</context:component-scan>-->
+    <context:component-scan base-package="com.yule" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
 
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">

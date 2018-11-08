@@ -2,6 +2,6 @@
 <html>
 <body>
 <h2>Hello World!</h2>
-<a href="http://localhost:8080/dbComponentCtrl/index">单表查询组件</a>
+<a href="http://localhost:8080/exportExcelCtrl/exportExcelByFixedData">导出excel固定数据</a>
 </body>
 </html>
