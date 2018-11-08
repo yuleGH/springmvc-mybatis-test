@@ -1,8 +1,7 @@
 package com.yule.common.utils.excel;
 
-import com.yule.querydb.utils.CommonUtil;
-import com.yule.querydb.utils.ReflectUtil;
-import com.yule.querydb.utils.excel.ConvertCellValueUtil;
+import com.yule.common.utils.CommonUtil;
+import com.yule.common.utils.ReflectUtil;
 import org.apache.poi.hssf.usermodel.*;
 
 import java.util.Arrays;

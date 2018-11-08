@@ -1,6 +1,6 @@
 package com.yule.common.utils.excel;
 
-import com.yule.querydb.utils.CommonUtil;
+import com.yule.common.utils.CommonUtil;
 import org.apache.poi.hssf.usermodel.*;
 
 import java.util.Arrays;

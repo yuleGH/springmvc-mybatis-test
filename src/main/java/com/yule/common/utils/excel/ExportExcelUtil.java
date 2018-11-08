@@ -1,18 +1,17 @@
 package com.yule.common.utils.excel;
 
-import com.yule.querydb.utils.DateUtil;
-import com.yule.querydb.utils.excel.GenerateBodyDataUtil;
-import com.yule.querydb.utils.excel.GenerateCellStyleUtil;
-import com.yule.querydb.utils.excel.GenerateHeaderUtil;
+import com.yule.common.utils.DateUtil;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Font;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,10 +24,10 @@ import java.util.List;
  */
 public class ExportExcelUtil {
 
-	private static final Logger logger = LoggerFactory.getLogger(com.yule.querydb.utils.excel.ExportExcelUtil.class);
+	private static final Logger logger = LoggerFactory.getLogger(ExportExcelUtil.class);
 
 	/**
-	 * 导出 excel 文件
+	 * 导出 excel 文件 普通的
 	 * @param request
 	 * @param response
 	 * @param fileName
@@ -43,7 +42,7 @@ public class ExportExcelUtil {
 	}
 
 	/**
-	 * 导出 excel 文件
+	 * 导出 excel 文件 普通的
 	 * @param request
 	 * @param response
 	 * @param fileName
@@ -61,16 +60,16 @@ public class ExportExcelUtil {
 			HSSFSheet sheet = workbook.createSheet(fileName);
 
 			//1:style 生成样式  + 生成字体
-			HSSFCellStyle style = com.yule.querydb.utils.excel.GenerateCellStyleUtil.getHeaderBlueStyle(workbook);
+			HSSFCellStyle styleTitle = GenerateCellStyleUtil.getHeaderBlueStyle(workbook);
 
 			//2:stypl2 生成并设置另样式  + 生成另一个字
-			HSSFCellStyle style2 = GenerateCellStyleUtil.getBodyYellowStyle(workbook);
+			HSSFCellStyle styleContent = GenerateCellStyleUtil.getBodyYellowStyle(workbook);
 
 			// 产生表格标题，自适应宽度
-			GenerateHeaderUtil.setHeaderForAutoWidth(headerList, sheet, style);
+			GenerateHeaderUtil.setHeaderForAutoWidth(headerList, sheet, styleTitle);
 
 			//设置内容
-			GenerateBodyDataUtil.setBodyData(datas, sheet, style2, fieldList);
+			GenerateBodyDataUtil.setBodyData(datas, sheet, styleContent, fieldList);
 
 			response.setContentType("application/x-msdownload;charset=utf8");
 			response.setHeader("Content-disposition", "attachment; filename=" + new String(fileName.getBytes(), "iso-8859-1") + ".xls");

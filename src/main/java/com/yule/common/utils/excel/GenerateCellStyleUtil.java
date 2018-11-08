@@ -2,12 +2,12 @@ package com.yule.common.utils.excel;
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.FillPatternType;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.*;
+
+import java.util.List;
 
 /**
  * 生成 HSSFCellStyle 样式  + 生成字体
@@ -70,5 +70,22 @@ public class GenerateCellStyleUtil {
         style.setFont(font);
 
         return style;
+    }
+
+    /**
+     * 设置值和样式，富文本 复合样式（一个单元格多个字体）
+     * @param cell 当前单元格
+     * @param wholeStr 整个字符串
+     * @param strArray 字符串分割的数组
+     * @param strFontList 字符串分割后一一对应的字体
+     */
+    public static void setRichTextCellValue(Cell cell, String wholeStr, String[] strArray, List<Font> strFontList){
+        HSSFRichTextString hssfRichTextString = new HSSFRichTextString(wholeStr);
+        int strLength = 0;
+        for(int i = 0; i < strArray.length; i++){
+            hssfRichTextString.applyFont(strLength, strLength + strArray[i].length(), strFontList.get(i));
+            strLength = strArray[i].length();
+        }
+        cell.setCellValue(hssfRichTextString);
     }
 }
